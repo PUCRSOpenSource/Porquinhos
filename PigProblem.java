@@ -1,4 +1,7 @@
 
+
+import java.util.Scanner;
+
 public class PigProblem {
 	
 	public static final int VAGO = 0;
@@ -12,7 +15,7 @@ public class PigProblem {
 	private int answer;
 	
 	
-	public PigProblem(int p, int g, int l) {
+	public PigProblem(int l, int p, int g) {
 		this.p = p;
 		this.g = g;
 		this.l = l;
@@ -80,7 +83,15 @@ public class PigProblem {
 	}
 	
 	public static void main(String[] args) {
-		PigProblem prob = new PigProblem(2,2,3);
+        Scanner scan = new Scanner(System.in);
+        String oi = scan.nextLine();
+        String[] numbersString = oi.split(" ");
+        int[] numbers = new int[numbersString.length];
+        for (int i = 0; i < numbersString.length; i++) {
+            numbers[i] = Integer.parseInt(numbersString[i]);
+        }
+        
+        PigProblem prob = new PigProblem(numbers[0],numbers[1],numbers[2]);
 		System.out.println(prob.getAnswer());
 
 	}
