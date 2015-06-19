@@ -1,4 +1,4 @@
-
+//Daniel Amarante e Diego Jornada
 
 import java.util.Scanner;
 
@@ -10,53 +10,46 @@ public class PigProblem {
 
 	private int[][] board;
 	private int l;
-	private int p;
-	private int g;
-	private int answer;
-	
+	private int porcos;
+	private int galinhas;
 	
 	public PigProblem(int l, int p, int g) {
-		this.p = p;
-		this.g = g;
+		this.porcos = p;
+		this.galinhas = g;
 		this.l = l;
 		this.board = new int[l][l];
-		this.answer = 0;
 	}
 	
 	public int getAnswer() {
-		solve(p,g,0);
-		return answer;
+		return solve(porcos,galinhas,0);
 	}
 	
-	public void solve(int p, int g, int pos) {
+	public int solve(int p, int g, int pos) {
 		if(p == 0 && g == 0) {
 			// printaMatriz();
-			answer++;
-			return;
+			return 1;
 		}
-        if (p == 0 && g == this.g) {
-        	// if (!daPraBotarGalinhaNoNegocio()) {
-        	// 	return;
-        	// }
+        if (p == 0 && g == galinhas) {
         	pos = 0;
         }
-        for(int n = pos; n < l * l; n++) {
+        int ans = 0;
+        for(int n = pos; n < (l * l); n++) {
         	int i = n / l;
         	int j = n % l;
         	if(podePorco(i, j, p)) {
-        		int newpos = i * l + j;
+        		int newpos = (i * l + j) + 1;
 				board[i][j] = PORCO;
-				solve(p-1,g, newpos);
+				ans += solve(p-1,g, newpos);
 				board[i][j] = VAGO;
 			} else if(podeGalinha(i, j, g)) {
-				int newpos = i * l + j;
+				int newpos = (i * l + j) + 1;
 				board[i][j] = GALINHA;
-				solve(p,g-1,newpos);
+				ans += solve(p,g-1,newpos);
 				board[i][j] = VAGO;
 			}
 
         }
-        return;
+        return ans;
 	}
 
 	private boolean podePorco(int i, int j, int p) {
@@ -96,24 +89,6 @@ public class PigProblem {
 		
 		return true;
 	}
-
-	private boolean daPraBotarGalinhaNoNegocio() {
-		int contador = 0;
-		for (int i = 0; i < l; i ++) {
-			for (int j = 0; j < l; j++) {
-				if (podeGalinha(i,j,400)) {
-					contador++;
-				}
-
-			}
-		}
-		if (contador < this.g) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
 		
 	public void printaMatriz() {
 		for(int i = 0; i < l; i++) {
@@ -127,20 +102,18 @@ public class PigProblem {
 	}
 	
 	public static void main(String[] args) {
- //        Scanner scan = new Scanner(System.in);
- //      //  while(true) {
- //        	String oi = scan.nextLine();
- //        String[] numbersString = oi.split(" ");
- //        int[] numbers = new int[numbersString.length];
- //        for (int i = 0; i < numbersString.length; i++) {
- //            numbers[i] = Integer.parseInt(numbersString[i]);
- //        }
-        
- //        PigProblem prob = new PigProblem(numbers[0],numbers[1],numbers[2]);
-		PigProblem prob = new PigProblem(7,4,3);
-		System.out.println(prob.getAnswer());
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+        	String oi = scan.nextLine();
+        	String[] numbersString = oi.split(" ");
+        	int[] numbers = new int[numbersString.length];
+        	for (int i = 0; i < numbersString.length; i++) {
+        	   	numbers[i] = Integer.parseInt(numbersString[i]);
+        	}
+        	PigProblem prob = new PigProblem(numbers[0],numbers[1],numbers[2]);
+			System.out.println(prob.getAnswer());
 
-        //}
+        }
 
 	}
 	
